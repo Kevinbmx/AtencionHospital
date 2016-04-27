@@ -16,6 +16,7 @@ public final class Main extends javax.swing.JFrame {
 
     public Main() {
         initComponents();
+        //Caracteristicas para ventana y panel.
         this.setTitle("Atencion Hospital");
         Dimension dim = super.getToolkit().getScreenSize();
         this.setSize((int) dim.getWidth(), (int) dim.getHeight() - 40);
