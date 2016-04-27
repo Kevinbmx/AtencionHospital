@@ -1,6 +1,8 @@
 package Doctor;
 
 import Conexion.Conexion;
+import static Main.Main.jDesktopPane1;
+import Paciente.ListaPaciente;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,6 +21,7 @@ public class Doctor extends javax.swing.JInternalFrame {
         conectar = new Conexion();
         cn = conectar.getCn();
         conectar = new Conexion();
+         this.setTitle("registro de doctores");
     }
 
     @SuppressWarnings("unchecked")
@@ -33,10 +36,10 @@ public class Doctor extends javax.swing.JInternalFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        cbespecialidad = new javax.swing.JComboBox<>();
         txtdireccion = new javax.swing.JTextField();
         txtnombre = new javax.swing.JTextField();
         txtusuarioid = new javax.swing.JTextField();
+        txtespecialidad = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         btnlista = new javax.swing.JButton();
         btnregistrar = new javax.swing.JButton();
@@ -67,8 +70,6 @@ public class Doctor extends javax.swing.JInternalFrame {
 
         jLabel6.setText("Usuario Id");
 
-        cbespecialidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2" }));
-
         txtdireccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtdireccionActionPerformed(evt);
@@ -94,18 +95,19 @@ public class Doctor extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
                     .addComponent(jLabel4)
                     .addComponent(jLabel3)
                     .addComponent(jLabel2)
+                    .addComponent(jLabel5)
                     .addComponent(jLabel6))
                 .addGap(31, 31, 31)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtapellido)
-                    .addComponent(cbespecialidad, 0, 169, Short.MAX_VALUE)
-                    .addComponent(txtdireccion)
-                    .addComponent(txtnombre, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtusuarioid))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtusuarioid, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtespecialidad, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(txtapellido, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
+                        .addComponent(txtdireccion)
+                        .addComponent(txtnombre, javax.swing.GroupLayout.Alignment.TRAILING)))
                 .addContainerGap(48, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -124,14 +126,14 @@ public class Doctor extends javax.swing.JInternalFrame {
                     .addComponent(txtdireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
-                    .addComponent(cbespecialidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtusuarioid, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(txtespecialidad, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 19, Short.MAX_VALUE))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Controles"));
@@ -193,13 +195,12 @@ public class Doctor extends javax.swing.JInternalFrame {
                 .addComponent(jLabel1)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(39, 39, 39)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         pack();
@@ -213,17 +214,14 @@ public class Doctor extends javax.swing.JInternalFrame {
 
         try {
             PreparedStatement cts = cn.prepareStatement("exec insertardoctor ?,?,?,?,? ");
-//            String nombre = txtnombre.getText();
-//            String apellido = txtapellido.getText();
-//            String direccion = txtdireccion.getText();
-//            String especialidad = cbespecialidad.getSelectedItem().toString();
-//            String usuarioid = txtusuarioid.getText();
-
             cts.setString(1, txtnombre.getText());
             cts.setString(2, txtapellido.getText());
             cts.setString(3, txtdireccion.getText());
-            cts.setString(4, cbespecialidad.getSelectedItem().toString());
-            cts.setString(5,  txtusuarioid.getText());
+            cts.setString(4, txtespecialidad.getText());
+            cts.setString(5, txtusuarioid.getText());
+            
+            
+           
 
             int rpt = cts.executeUpdate();
             cts.getMoreResults();
@@ -249,14 +247,24 @@ public class Doctor extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtusuarioidActionPerformed
 
     private void btnlistaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlistaActionPerformed
-        // TODO add your handling code here:
+        try {
+            jDesktopPane1.removeAll();
+            jDesktopPane1.repaint();
+            ListaDoctor listadoctor = new ListaDoctor();
+            jDesktopPane1.add(listadoctor);
+            listadoctor.toFront();
+            listadoctor.setVisible(true);
+            this.dispose();
+        } catch (Exception e) {
+        }
+
+
     }//GEN-LAST:event_btnlistaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnlista;
     private javax.swing.JButton btnregistrar;
-    private javax.swing.JComboBox<String> cbespecialidad;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -267,6 +275,7 @@ public class Doctor extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JTextField txtapellido;
     private javax.swing.JTextField txtdireccion;
+    private javax.swing.JTextField txtespecialidad;
     private javax.swing.JTextField txtnombre;
     private javax.swing.JTextField txtusuarioid;
     // End of variables declaration//GEN-END:variables

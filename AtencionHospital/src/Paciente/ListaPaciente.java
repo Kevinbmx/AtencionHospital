@@ -2,6 +2,7 @@ package Paciente;
 
 import Conexion.Conexion;
 import static Main.Main.jDesktopPane1;
+import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -52,6 +53,11 @@ public final class ListaPaciente extends javax.swing.JInternalFrame {
         });
 
         btneliminar.setText("Eliminar");
+        btneliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btneliminarActionPerformed(evt);
+            }
+        });
 
         btncancelar.setText("Cancelar");
         btncancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -129,12 +135,12 @@ public final class ListaPaciente extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(267, 267, 267)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -176,6 +182,30 @@ public final class ListaPaciente extends javax.swing.JInternalFrame {
 
 
     }//GEN-LAST:event_btneditarActionPerformed
+
+    private void btneliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarActionPerformed
+    int fila = tblpaciente.getSelectedRow();
+        if (fila >= 0) {
+            try {
+                PreparedStatement ps = cn.prepareStatement("EXEC eliminarpacientes ?");
+                ps.setString(1, tblpaciente.getValueAt(fila, 0).toString());
+                ps.executeUpdate();
+                ps.getMoreResults();
+                JOptionPane.showMessageDialog(this, "DOCTOR ELIMINADO", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+                dtmpaciente.removeRow(fila);
+            } catch (SQLException | HeadlessException e) {
+                JOptionPane.showMessageDialog(this, "Error");
+                System.out.println(e);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(this, "SELECCIONE UNA FILA");
+
+        }
+
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btneliminarActionPerformed
 
     public void tablaPaciente() {
         dtmpaciente = new DefaultTableModel();

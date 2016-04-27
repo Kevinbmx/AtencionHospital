@@ -1,9 +1,32 @@
 package Doctor;
 
+import Conexion.Conexion;
+import static Main.Main.jDesktopPane1;
+import Paciente.PacienteEditar;
+import java.awt.HeadlessException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 public class ListaDoctor extends javax.swing.JInternalFrame {
 
+    private Connection cn;
+    private PreparedStatement cts;
+    private ResultSet r;
+    private Conexion conectar;
+    private DefaultTableModel dtmdoctor;
+//        private DefaultTableModel dtmdoctor;
+
     public ListaDoctor() {
+         this.setTitle("Lista Doctores");
         initComponents();
+        conectar = new Conexion();
+        cn = conectar.getCn();
+        conectar = new Conexion();
+        tablaPaciente();
     }
 
     @SuppressWarnings("unchecked")
@@ -59,8 +82,18 @@ public class ListaDoctor extends javax.swing.JInternalFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Controles"));
 
         btneditar.setText("Editar");
+        btneditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btneditarActionPerformed(evt);
+            }
+        });
 
         btneliminar.setText("Eliminar");
+        btneliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btneliminarActionPerformed(evt);
+            }
+        });
 
         btnregistrar.setText("cancelar");
         btnregistrar.addActionListener(new java.awt.event.ActionListener() {
@@ -133,8 +166,80 @@ public class ListaDoctor extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnregistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnregistrarActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_btnregistrarActionPerformed
+
+    private void btneditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneditarActionPerformed
+
+        int fila = tbldoctor.getSelectedRow();
+        if (fila >= 0) {
+            try {
+                jDesktopPane1.removeAll();
+                jDesktopPane1.repaint();
+                EditarDoctor edit = new EditarDoctor(tbldoctor.getValueAt(fila, 0).toString());
+                System.out.println(tbldoctor.getValueAt(fila, 0).toString());
+                jDesktopPane1.add(edit);
+                edit.toFront();
+                edit.setVisible(true);
+                this.dispose();
+
+            } catch (Exception e) {
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Seleccione una fila");
+        }
+
+
+    }//GEN-LAST:event_btneditarActionPerformed
+
+    private void btneliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarActionPerformed
+
+        int fila = tbldoctor.getSelectedRow();
+        if (fila >= 0) {
+            try {
+                PreparedStatement ps = cn.prepareStatement("EXEC eliminardoctor ?");
+                ps.setString(1, tbldoctor.getValueAt(fila, 0).toString());
+                ps.executeUpdate();
+                ps.getMoreResults();
+                JOptionPane.showMessageDialog(this, "DOCTOR ELIMINADO", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+                dtmdoctor.removeRow(fila);
+            } catch (SQLException | HeadlessException e) {
+                JOptionPane.showMessageDialog(this, "Error");
+                System.out.println(e);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(this, "SELECCIONE UNA FILA");
+
+        }
+
+    }//GEN-LAST:event_btneliminarActionPerformed
+
+    public void tablaPaciente() {
+        dtmdoctor = new DefaultTableModel();
+        dtmdoctor.addColumn("Id");
+        dtmdoctor.addColumn("Nombre");
+        dtmdoctor.addColumn("Apellido");
+        dtmdoctor.addColumn("Direccion");
+        dtmdoctor.addColumn("usuario ID");
+        dtmdoctor.addColumn("especialida");
+        tbldoctor.setModel(dtmdoctor);
+        String[] datos = new String[6];
+        try {
+            ResultSet rs = conectar.obtenerConsulta("select * from fndoctortabla();");
+            while (rs.next()) {
+                datos[0] = rs.getString(1);
+                datos[1] = rs.getString(2);
+                datos[2] = rs.getString(3);
+                datos[3] = rs.getString(4);
+                datos[4] = rs.getString(5);
+                datos[5] = rs.getString(6);
+                dtmdoctor.addRow(datos);
+            }
+            tbldoctor.setModel(dtmdoctor);
+        } catch (SQLException ex) {
+        }
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

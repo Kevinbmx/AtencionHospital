@@ -6,10 +6,8 @@
 package Seguridad;
 
 import Conexion.Conexion;
-import static Main.Main.jDesktopPane1;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -18,7 +16,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Toshiba
  */
-public class LPermiso extends javax.swing.JInternalFrame {
+public final class LPermiso extends javax.swing.JInternalFrame {
 
     java.sql.Connection cn;
     PreparedStatement cts;
@@ -33,7 +31,7 @@ public class LPermiso extends javax.swing.JInternalFrame {
         cargarTabla();
     }
 
-    public void centrarventtana() {
+    public final void centrarventtana() {
         this.setLocation((Main.Main.jDesktopPane1.getWidth() / 2) - (this.getWidth() / 2), (Main.Main.jDesktopPane1.getHeight() / 2) - (this.getHeight() / 2));
     }
 
