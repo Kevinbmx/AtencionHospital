@@ -7,13 +7,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javax.sql.DataSource;
 
-public final class Conexion {
+public final class Conexion {   
 
     private Connection cn;
     public DataSource datasource;
 
     public Conexion() {
-        Connection conexion = conecion();
+        conecion();
     }
 
     public Connection getCn() {
@@ -23,7 +23,7 @@ public final class Conexion {
     public Connection conecion() {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            cn = DriverManager.getConnection("jdbc:sqlserver://KEVIN-PC\\ROOT:1433;DatabaseName=Atencion;", "sa", "sa");
+            cn = DriverManager.getConnection("jdbc:sqlserver://Equipo-Casa\\ROOT:1433;DatabaseName=Atencion;", "sa", "sa");
             if (cn == null) {
                 System.out.println("no pudo conectarse");
             } else {

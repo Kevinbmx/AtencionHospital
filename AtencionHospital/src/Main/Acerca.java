@@ -1,20 +1,16 @@
 package Main;
 
-import Conexion.Conexion;
-import java.sql.Connection;
 
 public class Acerca extends javax.swing.JInternalFrame {
 
-    Connection cn;
-    Conexion conectar = new Conexion();
-
     public Acerca() {
         initComponents();
-        conectar = new Conexion();
-        cn = conectar.getCn();
-
     }
 
+    public void centrarventtana() {
+        this.setLocation((Main.jDesktopPane1.getWidth() / 2) - (this.getWidth() / 2), (Main.jDesktopPane1.getHeight() / 2) - (this.getHeight() / 2));
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
