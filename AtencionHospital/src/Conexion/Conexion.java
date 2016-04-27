@@ -13,7 +13,7 @@ public final class Conexion {
     public DataSource datasource;
 
     public Conexion() {
-        Connection conecion = conecion();
+        Connection conexion = conecion();
     }
 
     public Connection getCn() {

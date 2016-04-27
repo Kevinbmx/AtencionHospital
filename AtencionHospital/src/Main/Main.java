@@ -1,6 +1,10 @@
 package Main;
 
-public class Main extends javax.swing.JFrame {
+import Doctor.Doctor;
+import Especialidad.IngresarEspecialidad;
+import Paciente.Paciente;
+
+public final class Main extends javax.swing.JFrame {
 
     public Main() {
         initComponents();
@@ -11,11 +15,15 @@ public class Main extends javax.swing.JFrame {
     private void initComponents() {
 
         jInternalFrame1 = new javax.swing.JInternalFrame();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jmenuDoctor = new javax.swing.JMenuItem();
+        jmenuPaciente = new javax.swing.JMenuItem();
+        jmenuEspecialidades = new javax.swing.JMenuItem();
 
         jInternalFrame1.setVisible(true);
 
@@ -29,6 +37,8 @@ public class Main extends javax.swing.JFrame {
             jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
+
+        jMenuItem2.setText("jMenuItem2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1600, 860));
@@ -60,6 +70,31 @@ public class Main extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Registro");
+
+        jmenuDoctor.setText("Doctor");
+        jmenuDoctor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmenuDoctorActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jmenuDoctor);
+
+        jmenuPaciente.setText("Pacientes");
+        jmenuPaciente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmenuPacienteActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jmenuPaciente);
+
+        jmenuEspecialidades.setText("Especialidades");
+        jmenuEspecialidades.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmenuEspecialidadesActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jmenuEspecialidades);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -81,13 +116,53 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        try {
+            Acerca acerca = new Acerca();
+            jDesktopPane1.add(acerca);
+            acerca.show();
+            acerca.setLocation(50, 5);
 
-        Acerca acerca = new Acerca();
-        jDesktopPane1.add(acerca);
-        acerca.show();
-        acerca.setLocation(50, 5);
+        } catch (Exception e) {
+        }
 
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jmenuDoctorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmenuDoctorActionPerformed
+
+        try {
+            Doctor doctor = new Doctor();
+            jDesktopPane1.add(doctor);
+            doctor.show();
+            doctor.setLocation(50, 5);
+
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_jmenuDoctorActionPerformed
+
+    private void jmenuPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmenuPacienteActionPerformed
+
+        try {
+            Paciente paciente = new Paciente();
+            jDesktopPane1.add(paciente);
+            paciente.show();
+            paciente.setLocation(50,5);
+        } catch (Exception e) {
+        }
+
+    }//GEN-LAST:event_jmenuPacienteActionPerformed
+
+    private void jmenuEspecialidadesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmenuEspecialidadesActionPerformed
+        try {
+            IngresarEspecialidad paciente = new IngresarEspecialidad();
+            jDesktopPane1.add(paciente);
+            paciente.show();
+            paciente.setLocation(50, 5);
+
+        } catch (Exception e) {
+        }
+
+
+    }//GEN-LAST:event_jmenuEspecialidadesActionPerformed
 
     public static void main(String args[]) {
         try {
@@ -95,10 +170,12 @@ public class Main extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Main.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
         java.awt.EventQueue.invokeLater(() -> {
@@ -107,11 +184,15 @@ public class Main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JDesktopPane jDesktopPane1;
+    public static javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jmenuDoctor;
+    private javax.swing.JMenuItem jmenuEspecialidades;
+    private javax.swing.JMenuItem jmenuPaciente;
     // End of variables declaration//GEN-END:variables
 }
