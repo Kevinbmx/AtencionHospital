@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 public final class Main extends javax.swing.JFrame {
 
     public static RUsuario registarUsuario;
+    private int idUsuarioActual = -1;
 
     public Main() {
         initComponents();
@@ -27,6 +28,14 @@ public final class Main extends javax.swing.JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jDesktopPane1.setSize(getWidth(), getHeight() - 50);
         registarUsuario = new RUsuario();
+    }
+
+    public int getIdUsuarioActual() {
+        return idUsuarioActual;
+    }
+
+    public void setIdUsuarioActual(int idUsuarioActual) {
+        this.idUsuarioActual = idUsuarioActual;
     }
 
     @SuppressWarnings("unchecked")
