@@ -19,6 +19,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class RPermisoUsuario extends javax.swing.JInternalFrame {
 
+    private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getRootLogger();
+
     java.sql.Connection cn;
     PreparedStatement cts;
     ResultSet r;
@@ -28,6 +30,8 @@ public class RPermisoUsuario extends javax.swing.JInternalFrame {
 
     public RPermisoUsuario() {
         initComponents();
+        logger.info("Se ha abierto la ventana Registo Permisi-Usuario.");
+        this.setTitle("Usuario - Permiso");
         conectar = new Conexion();
         cn = conectar.getCn();
         centrarventtana();
@@ -36,25 +40,13 @@ public class RPermisoUsuario extends javax.swing.JInternalFrame {
     }
 
     public void centrarventtana() {
+        logger.info("Centrando ventana.");
         this.setLocation((Main.Main.jDesktopPane1.getWidth() / 2) - (this.getWidth() / 2), (Main.Main.jDesktopPane1.getHeight() / 2) - (this.getHeight() / 2));
-    }
-
-    private void insertar(String nombre, String apellido, String usuario, String contrasena) throws SQLException {
-        PreparedStatement cts = cn.prepareStatement("exec insertarUsuario ?, ?, ?, ?");
-        cts.setString(1, nombre);
-        cts.setString(2, apellido);
-        cts.setString(3, usuario);
-        cts.setString(4, contrasena);
-        int rpt = cts.executeUpdate();
-        cts.getMoreResults();
-        if (rpt == 1) {
-            JOptionPane.showMessageDialog(this, "Se ha insertado");
-            this.dispose();
-        }
     }
 
     public void cargarTablaUsuario() {
         try {
+            logger.info("Cargando tabla Ususario.");
             DefaultTableModel tabla = new DefaultTableModel();
             tabla.addColumn("ID");
             tabla.addColumn("NOMBRE");
@@ -80,6 +72,7 @@ public class RPermisoUsuario extends javax.swing.JInternalFrame {
 
     public void cargarTablaPermiso() {
         try {
+            logger.info("Cargando tabla Permiso.");
             DefaultTableModel tabla = new DefaultTableModel();
             tabla.addColumn("ID");
             tabla.addColumn("NOMBRE");
@@ -108,6 +101,7 @@ public class RPermisoUsuario extends javax.swing.JInternalFrame {
         cts.getMoreResults();
         if (rpt == 1) {
             JOptionPane.showMessageDialog(this, "Se ha insertado");
+            logger.info("Se ha insertrado. idUsuario: "+idU+" - idPermiso: "+idP);
             this.dispose();
         }
     }

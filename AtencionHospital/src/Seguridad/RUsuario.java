@@ -17,6 +17,8 @@ import javax.swing.JOptionPane;
  */
 public class RUsuario extends javax.swing.JInternalFrame {
 
+    private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getRootLogger();
+
     java.sql.Connection cn;
     PreparedStatement cts;
     ResultSet r;
@@ -26,6 +28,8 @@ public class RUsuario extends javax.swing.JInternalFrame {
 
     public RUsuario() {
         initComponents();
+        logger.info("Se ha abierto la ventana RUsuario.");
+        this.setTitle("Usuario");
         conectar = new Conexion();
         cn = conectar.getCn();
         centrarventtana();
@@ -40,6 +44,7 @@ public class RUsuario extends javax.swing.JInternalFrame {
     }
 
     public void centrarventtana() {
+        logger.info("Centrando ventana.");
         this.setLocation((Main.Main.jDesktopPane1.getWidth() / 2) - (this.getWidth() / 2), (Main.Main.jDesktopPane1.getHeight() / 2) - (this.getHeight() / 2));
     }
 
@@ -74,11 +79,6 @@ public class RUsuario extends javax.swing.JInternalFrame {
         txtApellido.setText(apellido);
         txtUsuario.setText(usuario);
         txtContraseña.setText(contrasena);
-        System.out.println(idUpdate);
-        System.out.println(nombre);
-        System.out.println(apellido);
-        System.out.println(usuario);
-        System.out.println(contrasena);
     }
 
     private void editar(String nombre, String apellido, String usuario, String contrasena) {
@@ -99,6 +99,13 @@ public class RUsuario extends javax.swing.JInternalFrame {
         }
     }
 
+    public void limpiarCasillas(){
+        txtNombre1.setText("");
+        txtApellido.setText("");
+        txtUsuario.setText("");
+        txtContraseña.setText("");
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -273,8 +280,8 @@ public class RUsuario extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonCancelar;
-    private javax.swing.JButton botonEditar;
-    private javax.swing.JButton botonRegistrar;
+    public static javax.swing.JButton botonEditar;
+    public static javax.swing.JButton botonRegistrar;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel7;

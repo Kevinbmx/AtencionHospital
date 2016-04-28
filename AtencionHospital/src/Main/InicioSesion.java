@@ -8,14 +8,17 @@ package Main;
 import Conexion.Conexion;
 import java.awt.BorderLayout;
 import java.io.IOException;
+import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import org.apache.log4j.PropertyConfigurator;
 
 /**
  *
@@ -23,17 +26,27 @@ import javax.swing.table.DefaultTableModel;
  */
 public class InicioSesion extends javax.swing.JFrame {
 
+    private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getRootLogger();
+
     java.sql.Connection cn;
     PreparedStatement cts;
     ResultSet r;
     Conexion conectar = new Conexion();
 
-    private String id = "", usuario = "", contrasena = "";
-
+    private String idActual = "", usuarioActual = "", contrasenaActual = "";
+    private String doctor = "Doctor";
+    private String paciente = "Paciente";
+    private String usuario = "Usuario";
+    private String permiso = "Permiso";
+    private String permisoUsuario = "PermisoUsuario";
+    private String citas = "Citas";
+    private String oonsultaCitas = "Consulta Citas";
+    
     private Main ventanaPrograma;
 
     public InicioSesion() throws IOException, ClassNotFoundException {
         initComponents();
+        logger.info("Se inicio la venta de Inicio de sesion");
         conectar = new Conexion();
         cn = conectar.getCn();
         init();
@@ -48,8 +61,6 @@ public class InicioSesion extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jTextField = new javax.swing.JTextField();
@@ -62,21 +73,7 @@ public class InicioSesion extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
-
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Inicio de sesion");
 
         jTextField.addActionListener(new java.awt.event.ActionListener() {
@@ -85,10 +82,8 @@ public class InicioSesion extends javax.swing.JFrame {
             }
         });
 
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Usuario:");
 
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Contrasena:");
 
         jButton1.setText("Cancelar");
@@ -153,21 +148,14 @@ public class InicioSesion extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(76, 76, 76)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(76, 76, 76)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(101, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -183,7 +171,6 @@ public class InicioSesion extends javax.swing.JFrame {
         try {
             String u = jTextField.getText().trim().toLowerCase();
             String c = jPasswordField.getText().trim().toLowerCase();
-            cargarTabla(u);
             validarUsuario(u, c);
         } catch (Exception e) {
         }
@@ -197,6 +184,11 @@ public class InicioSesion extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        String resource = "/auditoria.properties";
+        URL configFileResource;
+        configFileResource = InicioSesion.class.getResource(resource);
+        PropertyConfigurator.configure(configFileResource);
+        
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -242,13 +234,11 @@ public class InicioSesion extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField jPasswordField;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField;
     // End of variables declaration//GEN-END:variables
 
     private void init() {
-        this.setTitle("Aeronauta - Iniciar secion");
+        this.setTitle("Inicio de sesion");
         this.setLayout(null);
         this.setVisible(true);
         this.setLocationRelativeTo(null);
@@ -257,9 +247,8 @@ public class InicioSesion extends javax.swing.JFrame {
     }
 
     public void validarUsuario(String u, String c) throws IOException, ClassNotFoundException, SQLException {
-        System.out.println("Validando usuario");
+        logger.info("Se esta validando el usuario.");
         boolean inicio = false;
-
         cts = cn.prepareStatement("select * from buscarUsuario('" + u + "')");
         r = cts.executeQuery();
         Object dato[] = new Object[3];
@@ -267,39 +256,65 @@ public class InicioSesion extends javax.swing.JFrame {
             for (int i = 0; i < 3; i++) {
                 dato[i] = r.getString(i + 1);
             }
-            System.out.println("Se ha encontrado un valor");
         }
-        id = (String) dato[0];
-        usuario = (String) dato[1];
-        contrasena = (String) dato[2];
-        System.out.println(id + " - " + usuario + " - " + contrasena);
-//        if (inicio) {
-//            this.dispose();
-//            ventanaPrograma = new Main();
-//        }
+        idActual = (String) dato[0];
+        usuarioActual = (String) dato[1];
+        contrasenaActual = (String) dato[2];
+//        System.out.println(id + " - " + usuario + " - " + contrasena);
+        if (c.equals(contrasenaActual)) {
+            inicio = true;
+        }
+        if (inicio) {
+            logger.info("Ha iniciado sesion. Usuario: "+u+" - Contrasena: "+c);
+            cargarPermisos();            
+            this.dispose();
+        }else{
+            logger.info("Se ha intentado ingresar con un usuario y/o contrasena erroneos. Usuario: "+u+" - Contrasena: "+c);
+            JOptionPane.showMessageDialog(null, "Su usuario o contrasena es incorrecto.");
+        }
     }
-
-    public void cargarTabla(String u) {
-        try {
-            DefaultTableModel tabla = new DefaultTableModel();
-            tabla.addColumn("ID");
-            tabla.addColumn("USUARIO");
-            tabla.addColumn("CONTRASEÑA");
-            cts = cn.prepareStatement("select * from buscarUsuario('" + u + "')");
-            r = cts.executeQuery();
-            while (r.next()) {
-                Object dato[] = new Object[3];
-                for (int i = 0; i < 3; i++) {
-                    dato[i] = r.getString(i + 1);
-                }
-                tabla.addRow(dato);
+    
+    private void cargarPermisos() throws SQLException{
+        logger.info("Cargando permisos del usuario.");
+        ventanaPrograma = new Main();
+        cts = cn.prepareStatement("select * from cargarPermisoDeUsuario(" + Integer.parseInt(idActual) + ")");
+        r = cts.executeQuery();
+        while (r.next()) {
+            if (r.getString(1).equals(doctor)) {
+                ventanaPrograma.menuRegistro.setVisible(true);
+                ventanaPrograma.itemDoctor.setVisible(true);
+                logger.info("Se ha habilitado el apartado de: "+doctor);
             }
-            this.jTable1.setModel(tabla);
-
-            jTable1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-            jTable1.doLayout();
-        } catch (Exception e) {
+            if (r.getString(1).equals(paciente)) {
+                ventanaPrograma.menuRegistro.setVisible(true);
+                ventanaPrograma.itemPaciente.setVisible(true);
+                logger.info("Se ha habilitado el apartado de: "+paciente);
+            }
+            if (r.getString(1).equals(citas)) {
+                ventanaPrograma.menuRegistro.setVisible(true);
+                ventanaPrograma.itemCitas.setVisible(true);
+                logger.info("Se ha habilitado el apartado de: "+citas);
+            }
+            if (r.getString(1).equals(oonsultaCitas)) {
+                ventanaPrograma.menuRegistro.setVisible(true);
+                ventanaPrograma.itemConsultaCitas.setVisible(true);
+                logger.info("Se ha habilitado el apartado de: "+oonsultaCitas);
+            }
+            if (r.getString(1).equals(usuario)) {
+                ventanaPrograma.menuSeguridad.setVisible(true);
+                ventanaPrograma.itemUsuarios.setVisible(true);
+                logger.info("Se ha habilitado el apartado de: "+usuario);
+            }
+            if (r.getString(1).equals(permiso)) {
+                ventanaPrograma.menuSeguridad.setVisible(true);
+                ventanaPrograma.itemPermisos.setVisible(true);
+                logger.info("Se ha habilitado el apartado de: "+permiso);
+            }
+            if (r.getString(1).equals(permisoUsuario)) {
+                ventanaPrograma.menuSeguridad.setVisible(true);
+                ventanaPrograma.itemPermisoUsuario.setVisible(true);
+                logger.info("Se ha habilitado el apartado de: "+permisoUsuario);
+            }
         }
     }
-
 }

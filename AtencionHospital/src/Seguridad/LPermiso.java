@@ -18,6 +18,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public final class LPermiso extends javax.swing.JInternalFrame {
 
+    private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getRootLogger();
+
     java.sql.Connection cn;
     PreparedStatement cts;
     ResultSet r;
@@ -25,6 +27,8 @@ public final class LPermiso extends javax.swing.JInternalFrame {
 
     public LPermiso() {
         initComponents();
+        logger.info("Se ha abierot la ventana lista Permiso.");
+        this.setTitle("Permiso");
         conectar = new Conexion();
         cn = conectar.getCn();
         centrarventtana();
@@ -32,11 +36,13 @@ public final class LPermiso extends javax.swing.JInternalFrame {
     }
 
     public final void centrarventtana() {
+        logger.info("Centrando ventana");
         this.setLocation((Main.Main.jDesktopPane1.getWidth() / 2) - (this.getWidth() / 2), (Main.Main.jDesktopPane1.getHeight() / 2) - (this.getHeight() / 2));
     }
 
     public void cargarTabla() {
         try {
+            logger.info("Cargando tabla de Permiso.");
             DefaultTableModel tabla = new DefaultTableModel();
             tabla.addColumn("ID");
             tabla.addColumn("NOMBRE");
@@ -56,18 +62,6 @@ public final class LPermiso extends javax.swing.JInternalFrame {
         } catch (Exception e) {
         }
     }
-    
-    private void eliminar(String id) {
-        try {
-                cts = cn.prepareStatement("exec dbo.deletePermiso ?");
-                cts.setString(1, id);
-                int c = cts.executeUpdate();
-                if (c == 1) {
-                    JOptionPane.showMessageDialog(this, "Se ha eliminado.");
-                }
-            } catch (Exception e) {
-            }
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -82,7 +76,6 @@ public final class LPermiso extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton2 = new javax.swing.JButton();
-        botonEliminar = new javax.swing.JButton();
 
         setClosable(true);
 
@@ -108,14 +101,6 @@ public final class LPermiso extends javax.swing.JInternalFrame {
             }
         });
 
-        botonEliminar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        botonEliminar.setText("Eliminar asignacion");
-        botonEliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonEliminarActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -128,7 +113,6 @@ public final class LPermiso extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(botonEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -136,8 +120,7 @@ public final class LPermiso extends javax.swing.JInternalFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botonEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -170,20 +153,7 @@ public final class LPermiso extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
-        try {
-            int fila = jTable1.getSelectedRow();
-            String id = (String) jTable1.getValueAt(fila, 0);
-//            System.out.println("Este es: " +id);
-            eliminar(id);
-            cargarTabla();
-        } catch (Exception e) {
-        }
-    }//GEN-LAST:event_botonEliminarActionPerformed
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton botonEliminar;
     private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

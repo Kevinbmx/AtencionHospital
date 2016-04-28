@@ -17,12 +17,13 @@ import org.apache.log4j.PropertyConfigurator;
 
 public final class Main extends javax.swing.JFrame {
 
-//   private static final Logger logger = Logger.getRootLogger();
+   private static final Logger logger = Logger.getRootLogger();
 
     public static RUsuario registarUsuario;
     private int idUsuarioActual = -1;
 
     public Main() {
+        logger.info("Se inicio laventana principal.");
         initComponents();
         this.setTitle("Atencion Hospital");
         Dimension dim = super.getToolkit().getScreenSize();
@@ -34,6 +35,18 @@ public final class Main extends javax.swing.JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jDesktopPane1.setSize(getWidth(), getHeight() - 50);
         registarUsuario = new RUsuario();
+        //SI QUIERES TENER DISPONIBLE TODAS LA OPCION COMENTALAS SIGUIENTES LINEAS 
+        //-->
+        menuSeguridad.setVisible(false);
+        itemUsuarios.setVisible(false);
+        itemPermisos.setVisible(false);
+        itemPermisoUsuario.setVisible(false);
+        menuRegistro.setVisible(false);
+        itemDoctor.setVisible(false);
+        itemPaciente.setVisible(false);
+        itemCitas.setVisible(false);
+        itemConsultaCitas.setVisible(false);
+        //<--
     }
 
     public int getIdUsuarioActual() {
@@ -54,12 +67,15 @@ public final class Main extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        jmenuDoctor = new javax.swing.JMenuItem();
-        jmenuPaciente = new javax.swing.JMenuItem();
-        jmenuEspecialidades = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
+        menuRegistro = new javax.swing.JMenu();
+        itemDoctor = new javax.swing.JMenuItem();
+        itemPaciente = new javax.swing.JMenuItem();
+        itemCitas = new javax.swing.JMenuItem();
+        itemConsultaCitas = new javax.swing.JMenuItem();
+	menuSeguridad = new javax.swing.JMenu();
+        itemUsuarios = new javax.swing.JMenuItem();
+        itemPermisoUsuario = new javax.swing.JMenuItem();
+        itemPermisos = new javax.swing.JMenuItem();
 
         jInternalFrame1.setVisible(true);
 
@@ -77,7 +93,6 @@ public final class Main extends javax.swing.JFrame {
         jMenuItem2.setText("jMenuItem2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1600, 860));
 
         jDesktopPane1.setBackground(new java.awt.Color(0, 153, 153));
         jDesktopPane1.setForeground(new java.awt.Color(0, 204, 255));
@@ -105,49 +120,69 @@ public final class Main extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Registro");
+        menuRegistro.setText("Registro");
 
-        jmenuDoctor.setText("Doctor");
-        jmenuDoctor.addActionListener(new java.awt.event.ActionListener() {
+        itemDoctor.setText("Doctor");
+        itemDoctor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmenuDoctorActionPerformed(evt);
+                itemDoctorActionPerformed(evt);
             }
         });
-        jMenu2.add(jmenuDoctor);
+        menuRegistro.add(itemDoctor);
 
-        jmenuPaciente.setText("Pacientes");
-        jmenuPaciente.addActionListener(new java.awt.event.ActionListener() {
+        itemPaciente.setText("Pacientes");
+        itemPaciente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmenuPacienteActionPerformed(evt);
+                itemPacienteActionPerformed(evt);
             }
         });
-        jMenu2.add(jmenuPaciente);
+        menuRegistro.add(itemPaciente);
 
-        jmenuEspecialidades.setText("Especialidades");
-        jmenuEspecialidades.addActionListener(new java.awt.event.ActionListener() {
+        itemCitas.setText("Citas");
+        itemCitas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmenuEspecialidadesActionPerformed(evt);
+                itemCitasActionPerformed(evt);
             }
         });
-        jMenu2.add(jmenuEspecialidades);
+        menuRegistro.add(itemCitas);
 
-        jMenuItem3.setText("Citas");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+        itemConsultaCitas.setText("Consulta Citas");
+        itemConsultaCitas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
+                itemConsultaCitasActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem3);
+        menuRegistro.add(itemConsultaCitas);
 
-        jMenuItem4.setText("Consulta Citas");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+        jMenuBar1.add(menuRegistro);
+
+	menuSeguridad.setText("Seguridad");
+
+        itemUsuarios.setText("Usuarios");
+        itemUsuarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
+                itemUsuariosActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem4);
+        menuSeguridad.add(itemUsuarios);
 
-        jMenuBar1.add(jMenu2);
+        itemPermisoUsuario.setText("Usuarios y permisos");
+        itemPermisoUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemPermisoUsuarioActionPerformed(evt);
+            }
+        });
+        menuSeguridad.add(itemPermisoUsuario);
+
+        itemPermisos.setText("Permisos");
+        itemPermisos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemPermisosActionPerformed(evt);
+            }
+        });
+        menuSeguridad.add(itemPermisos);
+
+        jMenuBar1.add(menuSeguridad);
 
         setJMenuBar(jMenuBar1);
 
@@ -169,6 +204,7 @@ public final class Main extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         try {
+            logger.info("Llamando a ventana Acerca.");
             Acerca acerdaDe = new Acerca();
             jDesktopPane1.add(acerdaDe);
             acerdaDe.show();
@@ -178,8 +214,9 @@ public final class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    private void jmenuDoctorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmenuDoctorActionPerformed
+    private void itemDoctorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemDoctorActionPerformed
         try {
+            logger.info("Llamando a ventana Doctor.");
             Doctor doctor = new Doctor();
             jDesktopPane1.add(doctor);
             doctor.show();
@@ -187,20 +224,22 @@ public final class Main extends javax.swing.JFrame {
 
         } catch (Exception e) {
         }
-    }//GEN-LAST:event_jmenuDoctorActionPerformed
+    }//GEN-LAST:event_itemDoctorActionPerformed
 
-    private void jmenuPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmenuPacienteActionPerformed
+    private void itemPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemPacienteActionPerformed
         try {
+            logger.info("Llamando a ventana Paciente.");
             Paciente paciente = new Paciente();
             jDesktopPane1.add(paciente);
             paciente.show();
             paciente.setLocation(50, 5);
         } catch (Exception e) {
         }
-    }//GEN-LAST:event_jmenuPacienteActionPerformed
+    }//GEN-LAST:event_itemPacienteActionPerformed
 
     private void ItemUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ItemUsuariosActionPerformed
         try {
+            logger.info("Llamando a ventana listaUsuario.");
             LUsuario listaUsuario = new LUsuario();
             jDesktopPane1.add(listaUsuario);
             listaUsuario.show();
@@ -210,19 +249,21 @@ public final class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_ItemUsuariosActionPerformed
 
-    private void itemPermisoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemPermisoUsuarioActionPerformed
+    private void itemUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemPermisoUsuarioActionPerformed
         try {
-            LPermisoUsuario listaPermisoUsuario = new LPermisoUsuario();
-            jDesktopPane1.add(listaPermisoUsuario);
-            listaPermisoUsuario.show();
-            listaPermisoUsuario.setLocation(null);
-            listaPermisoUsuario.centrarventtana();
+            logger.info("Llamando a ventana listaUsuario.");
+            LUsuario usuario = new LUsuario();
+            jDesktopPane1.add(usuario);
+            usuario.show();
+            usuario.setLocation(null);
+            usuario.centrarventtana();
         } catch (Exception e) {
         }
     }//GEN-LAST:event_itemPermisoUsuarioActionPerformed
 
     private void ItemPermisosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ItemPermisosActionPerformed
         try {
+            logger.info("Llamando a ventana listaPermiso.");
             LPermiso listaPermiso = new LPermiso();
             jDesktopPane1.add(listaPermiso);
             listaPermiso.show();
@@ -234,6 +275,7 @@ public final class Main extends javax.swing.JFrame {
 
     private void itemUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemUsuarioActionPerformed
         try {
+            logger.info("Llamando a ventana listaUsuario.");
             LUsuario listaUsuario = new LUsuario();
             jDesktopPane1.add(listaUsuario);
             listaUsuario.show();
@@ -245,9 +287,9 @@ public final class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_itemUsuarioActionPerformed
 
-    private void intemPermisoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_intemPermisoUsuarioActionPerformed
-
+    private void itemPermisoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_intemPermisoUsuarioActionPerformed
         try {
+            logger.info("Llamando a ventana listaPermisoUsuario.");
             LPermisoUsuario listaPermisoUsuario = new LPermisoUsuario();
             jDesktopPane1.add(listaPermisoUsuario);
             listaPermisoUsuario.show();
@@ -255,12 +297,11 @@ public final class Main extends javax.swing.JFrame {
             listaPermisoUsuario.centrarventtana();
         } catch (Exception e) {
         }
-
     }//GEN-LAST:event_intemPermisoUsuarioActionPerformed
 
     private void itemPermisosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemPermisosActionPerformed
-
         try {
+            logger.info("Llamando a ventana listaPermiso.");
             LPermiso listaPermiso = new LPermiso();
             jDesktopPane1.add(listaPermiso);
             listaPermiso.show();
@@ -268,11 +309,11 @@ public final class Main extends javax.swing.JFrame {
             listaPermiso.centrarventtana();
         } catch (Exception e) {
         }
-
     }//GEN-LAST:event_itemPermisosActionPerformed
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+    private void itemCitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemCitasActionPerformed
         try {
+            logger.info("Llamando a ventana citas.");
             ConsultasBD listaPermiso = new ConsultasBD();
             jDesktopPane1.add(listaPermiso);
             listaPermiso.show();
@@ -280,10 +321,11 @@ public final class Main extends javax.swing.JFrame {
             
         } catch (Exception e) {
         }
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
+    }//GEN-LAST:event_itemCitasActionPerformed
 
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+    private void itemConsultaCitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemConsultaCitasActionPerformed
         try {
+            logger.info("Llamando a ventana Consulta citas.");
             Citas listaPermiso = new Citas();
             jDesktopPane1.add(listaPermiso);
             listaPermiso.show();
@@ -291,15 +333,15 @@ public final class Main extends javax.swing.JFrame {
             
         } catch (Exception e) {
         }
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
+    }//GEN-LAST:event_itemConsultaCitasActionPerformed
 
     public static void main(String args[]) {
         
-//        String resource = "/auditoria.properties";
-//        URL configFileResource;
-//        configFileResource = Main.class.getResource(resource);
-//        PropertyConfigurator.configure(configFileResource);
-//        
+        String resource = "/auditoria.properties";
+        URL configFileResource;
+        configFileResource = Main.class.getResource(resource);
+        PropertyConfigurator.configure(configFileResource);
+        
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -319,17 +361,20 @@ public final class Main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public static javax.swing.JMenuItem itemCitas;
+    public static javax.swing.JMenuItem itemConsultaCitas;
+    public static javax.swing.JMenuItem itemDoctor;
+    public static javax.swing.JMenuItem itemPaciente;
+    public static javax.swing.JMenuItem itemPermisoUsuario;
+    public static javax.swing.JMenuItem itemPermisos;
+    public static javax.swing.JMenuItem itemUsuarios;
     public static javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jmenuDoctor;
-    private javax.swing.JMenuItem jmenuEspecialidades;
-    private javax.swing.JMenuItem jmenuPaciente;
+    public static javax.swing.JMenu menuRegistro;
+    public static javax.swing.JMenu menuSeguridad;
     // End of variables declaration//GEN-END:variables
 }
