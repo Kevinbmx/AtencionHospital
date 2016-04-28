@@ -9,6 +9,7 @@ para poder poner en funcion ]amineto el programa:
 3. antes que nada asegurate de utilizar de estar utilizando el JDK apropiado en tu computador (puedes verlo o cambiarlo en : clic derecho en el proyecto dentro de netbeans, properties, clic en opcion Library y en la parte superior veras el JDK que debera se 1.8)
 
 4. asegura de estar usando las librerias para el proyecto(se encuientran en el archivo /Atencion/librerias.rar para descomprimir), sino la puedes implementar dentro de netbean con: clic derecho en "Libraries" del proyecto en netbeans, luego "add JAR" y buscas donde se encuentra el archivo de librearia en el explorador de archivos.
+Y copia tambien el archivo Atencion/librerias/auditoria.properties y pegalo en AtencionHospital/src/
 
 5. ahora no quedaria mas que ejecutar el programa. dentro de Netbeans ve a /Atencion/Source Package/Main y da clic derecho en Inicio de sesion.java y clic en la opcion "Run File". PRODRAS ENTRAR CON:
 
