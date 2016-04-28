@@ -18,15 +18,16 @@ public class ListaDoctor extends javax.swing.JInternalFrame {
     private ResultSet r;
     private Conexion conectar;
     private DefaultTableModel dtmdoctor;
-//        private DefaultTableModel dtmdoctor;
+//    private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getRootLogger();
 
     public ListaDoctor() {
-         this.setTitle("Lista Doctores");
+        this.setTitle("Lista Doctores");
         initComponents();
         conectar = new Conexion();
         cn = conectar.getCn();
         conectar = new Conexion();
-        tablaPaciente();
+        tablaDoctor();
+//        logger.info("se abrio la ventana de lista doctores");
     }
 
     @SuppressWarnings("unchecked")
@@ -182,8 +183,9 @@ public class ListaDoctor extends javax.swing.JInternalFrame {
                 edit.toFront();
                 edit.setVisible(true);
                 this.dispose();
-
+//                logger.info("boton de editado precionado");
             } catch (Exception e) {
+//                logger.warn("boton editar no precionado");
             }
         } else {
             JOptionPane.showMessageDialog(this, "Seleccione una fila");
@@ -203,9 +205,11 @@ public class ListaDoctor extends javax.swing.JInternalFrame {
                 ps.getMoreResults();
                 JOptionPane.showMessageDialog(this, "DOCTOR ELIMINADO", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
                 dtmdoctor.removeRow(fila);
+//                logger.info("boton de eliminar precionado");
             } catch (SQLException | HeadlessException e) {
                 JOptionPane.showMessageDialog(this, "Error");
                 System.out.println(e);
+//                logger.warn("boton de eliminar no precionado");
             }
 
         } else {
@@ -215,7 +219,7 @@ public class ListaDoctor extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_btneliminarActionPerformed
 
-    public void tablaPaciente() {
+    public void tablaDoctor() {
         dtmdoctor = new DefaultTableModel();
         dtmdoctor.addColumn("Id");
         dtmdoctor.addColumn("Nombre");
@@ -237,7 +241,9 @@ public class ListaDoctor extends javax.swing.JInternalFrame {
                 dtmdoctor.addRow(datos);
             }
             tbldoctor.setModel(dtmdoctor);
+//            logger.info("llenado de tabla doctor exitoso");
         } catch (SQLException ex) {
+//            logger.warn("llenado de tabla doctor fallido");
         }
     }
 

@@ -13,16 +13,16 @@ public final class Paciente extends javax.swing.JInternalFrame {
     Connection cn;
     ResultSet r;
     Conexion conectar;
+//    private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getRootLogger();
 
     public Paciente() {
         initComponents();
         conectar = new Conexion();
         cn = conectar.getCn();
         conectar = new Conexion();
-       
+//        logger.info("se abrio la ventana paciente");
 
     }
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -42,7 +42,7 @@ public final class Paciente extends javax.swing.JInternalFrame {
         radiomasculino = new javax.swing.JRadioButton();
         radiofemenino = new javax.swing.JRadioButton();
         jPanel3 = new javax.swing.JPanel();
-        btnEliminar = new javax.swing.JButton();
+        btnlistas = new javax.swing.JButton();
         btnRegistrar = new javax.swing.JButton();
 
         setClosable(true);
@@ -148,10 +148,10 @@ public final class Paciente extends javax.swing.JInternalFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Controles"));
 
-        btnEliminar.setText("Lista");
-        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+        btnlistas.setText("Lista");
+        btnlistas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarActionPerformed(evt);
+                btnlistasActionPerformed(evt);
             }
         });
 
@@ -170,7 +170,7 @@ public final class Paciente extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnRegistrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
-                    .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnlistas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -179,7 +179,7 @@ public final class Paciente extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(btnRegistrar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnEliminar)
+                .addComponent(btnlistas)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -214,55 +214,70 @@ public final class Paciente extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtapellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtapellidoActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtapellidoActionPerformed
 
     private void txtdireccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtdireccionActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtdireccionActionPerformed
 
     private void txtnombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtnombreActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtnombreActionPerformed
 
-    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        jDesktopPane1.removeAll();
-        jDesktopPane1.repaint();
-        ListaPaciente listpaciente = new ListaPaciente();
-        jDesktopPane1.add(listpaciente);
-        listpaciente.toFront();
-        listpaciente.setVisible(true);
-        this.dispose();
+    private void btnlistasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlistasActionPerformed
+        try {
+            jDesktopPane1.removeAll();
+            jDesktopPane1.repaint();
+            ListaPaciente listpaciente = new ListaPaciente();
+            jDesktopPane1.add(listpaciente);
+            listpaciente.toFront();
+            listpaciente.setVisible(true);
+            this.dispose();
+//            logger.info("abrio ventana lista paciente ");
+        } catch (Exception e) {
+//            logger.warn("no se abrio ventana paciente");
+        }
 
-    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    }//GEN-LAST:event_btnlistasActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        try {
-            PreparedStatement cts = cn.prepareStatement("exec insertarpaciente ?,?,?,?,? ");
-            String nombre = txtnombre.getText();
-            String apellido = txtapellido.getText();
-            String direccion = txtdireccion.getText();
-            String alergia = txtalergia.getText();
-            String sexo = "";
-            if (radiomasculino.isSelected()) {
-                sexo = "Masculino";
-            } else {
-                sexo = "Femenino";
-            }
-            cts.setString(1, nombre);
-            cts.setString(2, apellido);
-            cts.setString(3, direccion);
-            cts.setString(4, alergia);
-            cts.setString(5, sexo);
+        if (txtnombre.getText().equals(" ") || txtapellido.getText().equals(" ")
+                || txtdireccion.getText().equals(" ") || txtalergia.getText().equals(" ")
+                || radiomasculino.isSelected() || radiofemenino.isSelected()) {
+            try {
+                PreparedStatement cts = cn.prepareStatement("exec insertarpaciente ?,?,?,?,? ");
+                String nombre = txtnombre.getText();
+                String apellido = txtapellido.getText();
+                String direccion = txtdireccion.getText();
+                String alergia = txtalergia.getText();
+                String sexo = "";
+                if (radiomasculino.isSelected()) {
+                    sexo = "Masculino";
+                } else {
+                    sexo = "Femenino";
+                }
+                cts.setString(1, nombre);
+                cts.setString(2, apellido);
+                cts.setString(3, direccion);
+                cts.setString(4, alergia);
+                cts.setString(5, sexo);
 
-            int rpt = cts.executeUpdate();
-            cts.getMoreResults();
-            if (rpt == 1) {
-                JOptionPane.showMessageDialog(this, "registro correctamente!!", "atencion", JOptionPane.INFORMATION_MESSAGE);
+                int rpt = cts.executeUpdate();
+                cts.getMoreResults();
+
+                if (rpt == 1) {
+                    JOptionPane.showMessageDialog(this, "registro correctamente!!", "atencion", JOptionPane.INFORMATION_MESSAGE);
+//                    logger.info("registro de paciente exitoso");
+                }
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "registro incorrecto!!", "atencion", JOptionPane.INFORMATION_MESSAGE);
+                System.out.println(e);
+//                logger.warn("registro incorecto");
+
             }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "registro incorrecto!!", "atencion", JOptionPane.INFORMATION_MESSAGE);
-            System.out.println(e);
+        } else {
+
+            JOptionPane.showMessageDialog(this, "llene todas las casillas ", "atencion", JOptionPane.INFORMATION_MESSAGE);
         }
 
 
@@ -273,10 +288,9 @@ public final class Paciente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtalergiaActionPerformed
 
 
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnEliminar;
     public static javax.swing.JButton btnRegistrar;
+    private javax.swing.JButton btnlistas;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

@@ -12,11 +12,12 @@ import javax.swing.table.DefaultTableModel;
 
 public final class ListaPaciente extends javax.swing.JInternalFrame {
 
-    private Connection cn;
+    private final Connection cn;
     private PreparedStatement cts;
     private ResultSet r;
     private Conexion conectar;
     private DefaultTableModel dtmpaciente;
+//    private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getRootLogger();
 
     public ListaPaciente() {
         initComponents();
@@ -24,6 +25,8 @@ public final class ListaPaciente extends javax.swing.JInternalFrame {
         cn = conectar.getCn();
         conectar = new Conexion();
         tablaPaciente();
+//        logger.info("se abrio la ventana lista paciente");
+
     }
 
     @SuppressWarnings("unchecked")
@@ -158,33 +161,32 @@ public final class ListaPaciente extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btncancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncancelarActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_btncancelarActionPerformed
 
     private void btneditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneditarActionPerformed
         int fila = tblpaciente.getSelectedRow();
         if (fila >= 0) {
             try {
-            jDesktopPane1.removeAll();
-            jDesktopPane1.repaint();
-           PacienteEditar edit = new PacienteEditar(tblpaciente.getValueAt(fila, 0).toString());
-            System.out.println(tblpaciente.getValueAt(fila, 0).toString());
-            jDesktopPane1.add(edit);
-            edit.toFront();
-            edit.setVisible(true);
+                jDesktopPane1.removeAll();
+                jDesktopPane1.repaint();
+                PacienteEditar edit = new PacienteEditar(tblpaciente.getValueAt(fila, 0).toString());
+                System.out.println(tblpaciente.getValueAt(fila, 0).toString());
+                jDesktopPane1.add(edit);
+                edit.toFront();
+                edit.setVisible(true);
                 this.dispose();
-
+//                logger.info("boton de editado de paciente");
             } catch (Exception e) {
+//                logger.warn("no presionado boton paciente");
             }
         } else {
             JOptionPane.showMessageDialog(this, "Seleccione una fila");
         }
-
-
     }//GEN-LAST:event_btneditarActionPerformed
 
     private void btneliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarActionPerformed
-    int fila = tblpaciente.getSelectedRow();
+        int fila = tblpaciente.getSelectedRow();
         if (fila >= 0) {
             try {
                 PreparedStatement ps = cn.prepareStatement("EXEC eliminarpacientes ?");
@@ -193,18 +195,15 @@ public final class ListaPaciente extends javax.swing.JInternalFrame {
                 ps.getMoreResults();
                 JOptionPane.showMessageDialog(this, "DOCTOR ELIMINADO", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
                 dtmpaciente.removeRow(fila);
+//                logger.info("boton de eliminar precionado");
             } catch (SQLException | HeadlessException e) {
                 JOptionPane.showMessageDialog(this, "Error");
+//                logger.warn("boton eliminar no precionado");
                 System.out.println(e);
             }
-
         } else {
             JOptionPane.showMessageDialog(this, "SELECCIONE UNA FILA");
-
         }
-
-
-        // TODO add your handling code here:
     }//GEN-LAST:event_btneliminarActionPerformed
 
     public void tablaPaciente() {
@@ -229,7 +228,9 @@ public final class ListaPaciente extends javax.swing.JInternalFrame {
                 dtmpaciente.addRow(datos);
             }
             tblpaciente.setModel(dtmpaciente);
+//            logger.info("llenado de tabla exitoso");
         } catch (SQLException ex) {
+//            logger.warn("llenado de tabla no exitoso");
         }
     }
 

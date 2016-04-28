@@ -7,16 +7,21 @@ import Seguridad.LPermisoUsuario;
 import Seguridad.LUsuario;
 import Seguridad.RUsuario;
 import java.awt.Dimension;
+import java.net.URL;
 import javax.swing.JFrame;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+
 
 public final class Main extends javax.swing.JFrame {
+
+//   private static final Logger logger = Logger.getRootLogger();
 
     public static RUsuario registarUsuario;
     private int idUsuarioActual = -1;
 
     public Main() {
         initComponents();
-        //Caracteristicas para ventana y panel.
         this.setTitle("Atencion Hospital");
         Dimension dim = super.getToolkit().getScreenSize();
         this.setSize((int) dim.getWidth(), (int) dim.getHeight() - 40);
@@ -270,6 +275,12 @@ public final class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_itemPermisosActionPerformed
 
     public static void main(String args[]) {
+        
+//        String resource = "/auditoria.properties";
+//        URL configFileResource;
+//        configFileResource = Main.class.getResource(resource);
+//        PropertyConfigurator.configure(configFileResource);
+//        
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {

@@ -10,18 +10,19 @@ import javax.swing.JOptionPane;
 
 public class Doctor extends javax.swing.JInternalFrame {
 
-    Connection cn;
-//    PreparedStatement cts;
-    ResultSet r;
-    Conexion conectar;
+    private Connection cn;
+    private ResultSet r;
+    private Conexion conectar;
     private Conexion conexion;
+//    private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getRootLogger();
 
     public Doctor() {
         initComponents();
         conectar = new Conexion();
         cn = conectar.getCn();
         conectar = new Conexion();
-         this.setTitle("registro de doctores");
+        this.setTitle("registro de doctores");
+//        logger.info("se abrio la ventana docto");
     }
 
     @SuppressWarnings("unchecked")
@@ -193,57 +194,53 @@ public class Doctor extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(39, 39, 39)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(39, Short.MAX_VALUE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtapellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtapellidoActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtapellidoActionPerformed
 
     private void btnregistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnregistrarActionPerformed
+        if (txtnombre.getText().equals(" ") || txtapellido.getText().equals(" ")
+                || txtdireccion.getText().equals(" ") || txtespecialidad.getText().equals(" ")) {
+            try {
+                PreparedStatement cts = cn.prepareStatement("exec insertardoctor ?,?,?,?,? ");
+                cts.setString(1, txtnombre.getText());
+                cts.setString(2, txtapellido.getText());
+                cts.setString(3, txtdireccion.getText());
+                cts.setString(4, txtespecialidad.getText());
+                cts.setString(5, txtusuarioid.getText());
 
-        try {
-            PreparedStatement cts = cn.prepareStatement("exec insertardoctor ?,?,?,?,? ");
-            cts.setString(1, txtnombre.getText());
-            cts.setString(2, txtapellido.getText());
-            cts.setString(3, txtdireccion.getText());
-            cts.setString(4, txtespecialidad.getText());
-            cts.setString(5, txtusuarioid.getText());
-            
-            
-           
-
-            int rpt = cts.executeUpdate();
-            cts.getMoreResults();
-            if (rpt == 1) {
-                JOptionPane.showMessageDialog(this, "registro correctamente!!", "atencion", JOptionPane.INFORMATION_MESSAGE);
+                int rpt = cts.executeUpdate();
+                cts.getMoreResults();
+                if (rpt == 1) {
+                    JOptionPane.showMessageDialog(this, "registro correctamente!!", "atencion", JOptionPane.INFORMATION_MESSAGE);
+                }
+//            logger.info("registro de doctor exitoso");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "registro incorrecto!!", "atencion", JOptionPane.INFORMATION_MESSAGE);
+                System.out.println(e);
+//            logger.warn("registro de doctor fallido");
             }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "registro incorrecto!!", "atencion", JOptionPane.INFORMATION_MESSAGE);
-            System.out.println(e);
+        } else {
+            JOptionPane.showMessageDialog(this, "llene las casillas", "atencion", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnregistrarActionPerformed
 
     private void txtdireccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtdireccionActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtdireccionActionPerformed
 
     private void txtnombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtnombreActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtnombreActionPerformed
 
     private void txtusuarioidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtusuarioidActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtusuarioidActionPerformed
 
     private void btnlistaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlistaActionPerformed
@@ -255,10 +252,10 @@ public class Doctor extends javax.swing.JInternalFrame {
             listadoctor.toFront();
             listadoctor.setVisible(true);
             this.dispose();
+//            logger.info("boton de lista docto precionado ");
         } catch (Exception e) {
+//            logger.warn("boton de lista doctor no precionado");
         }
-
-
     }//GEN-LAST:event_btnlistaActionPerformed
 
 

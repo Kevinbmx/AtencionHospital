@@ -14,13 +14,16 @@ public final class PacienteEditar extends javax.swing.JInternalFrame {
     ResultSet r;
     Conexion conectar;
     private Conexion conexion;
+//    private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getRootLogger();
 
     public PacienteEditar(String id) {
         initComponents();
         conexion = new Conexion();
-        conectar =new Conexion();
+        conectar = new Conexion();
         cn = conectar.getCn();
         mostrarPaciente(id);
+//        logger.info("se abrio la ventana editar paciente");
+
     }
 
     @SuppressWarnings("unchecked")
@@ -188,42 +191,55 @@ public final class PacienteEditar extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        jDesktopPane1.removeAll();
-        jDesktopPane1.repaint();
-        ListaPaciente listpaciente = new ListaPaciente();
-        jDesktopPane1.add(listpaciente);
-        listpaciente.toFront();
-        listpaciente.setVisible(true);
-        this.dispose();
+        try {
+            jDesktopPane1.removeAll();
+            jDesktopPane1.repaint();
+            ListaPaciente listpaciente = new ListaPaciente();
+            jDesktopPane1.add(listpaciente);
+            listpaciente.toFront();
+            listpaciente.setVisible(true);
+            this.dispose();
+//            logger.info("boton eliminar precionado");
+        } catch (Exception e) {
+//            logger.warn("boton eliminar no precionado");
+        }
+
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        try {
-            PreparedStatement cts = cn.prepareStatement("exec actualizarPaciente ?,?,?,?,?,? ");
-            String sexo = "";
-            if (radiomasculino.isSelected()) {
-                sexo = "Masculino";
-            } else {
-                sexo = "Femenino";
-            }
-            cts.setString(1, txtid.getText() );
-            cts.setString(2, txtnombre.getText());
-            cts.setString(3, txtapellido.getText());
-            cts.setString(4, txtdireccion.getText());
-            cts.setString(5, txtalergia.getText());
-            cts.setString(6, sexo);
+        if (txtnombre.getText().equals(" ") || txtapellido.getText().equals(" ")
+                || txtdireccion.getText().equals(" ") || txtalergia.getText().equals(" ")
+                || radiomasculino.isSelected() || radiofemenino.isSelected()) {
+            try {
+                PreparedStatement cts = cn.prepareStatement("exec actualizarPaciente ?,?,?,?,?,? ");
+                String sexo = "";
+                if (radiomasculino.isSelected()) {
+                    sexo = "Masculino";
+                } else {
+                    sexo = "Femenino";
+                }
+                cts.setString(1, txtid.getText());
+                cts.setString(2, txtnombre.getText());
+                cts.setString(3, txtapellido.getText());
+                cts.setString(4, txtdireccion.getText());
+                cts.setString(5, txtalergia.getText());
+                cts.setString(6, sexo);
 
-            int rpt = cts.executeUpdate();
-            cts.getMoreResults();
-            if (rpt == 1) {
-                JOptionPane.showMessageDialog(this, "registro correctamente!!", "atencion", JOptionPane.INFORMATION_MESSAGE);
+                int rpt = cts.executeUpdate();
+                cts.getMoreResults();
+                if (rpt == 1) {
+                    JOptionPane.showMessageDialog(this, "editado correctamente!!", "atencion", JOptionPane.INFORMATION_MESSAGE);
+                }
+//            logger.info("editado correcto de paciente");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "editado incorrecto!!", "atencion", JOptionPane.INFORMATION_MESSAGE);
+                System.out.println(e);
+//            logger.warn("editado de paciente incorrecto");
             }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "registro incorrecto!!", "atencion", JOptionPane.INFORMATION_MESSAGE);
-            System.out.println(e);
+        } else {
+            JOptionPane.showMessageDialog(this, "llene todas las casillas ", "atencion", JOptionPane.INFORMATION_MESSAGE);
+
         }
-
-
     }//GEN-LAST:event_btnEditarActionPerformed
 
     public void mostrarPaciente(String id) {
@@ -241,7 +257,9 @@ public final class PacienteEditar extends javax.swing.JInternalFrame {
                     radiofemenino.setSelected(true);
                 }
             }
+//            logger.info("mostrado en txt paciente a editar correcto");
         } catch (SQLException ex) {
+//            logger.warn("no mostrado de paciente en txt");
         }
     }
 
